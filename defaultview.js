@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { AsyncStorage } from "react-native";
 import {
   Text,
@@ -12,18 +11,16 @@ import {
 } from "react-native";
 
 class DefaultView extends Component {
-
-
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={style.container}>
-        <Text onPress={() =>navigate('DeckView')} style={style.header}>
-           Title 
+        <Text onPress={() => navigate("DeckView")} style={style.header}>
+          Title
         </Text>
         <KeyboardAvoidingView>
           <TouchableOpacity style={style.button}>
-            <Text onPress={() =>navigate('AddNewDeck')}>Add New Deck</Text>
+            <Text onPress={() => navigate("AddNewDeck")}>Add New Deck</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </View>

@@ -16,14 +16,14 @@ const App = StackNavigator({
   DeckView:{
     screen:DeckView
   },
+  AddNewDeck:{
+    screen:AddNewDeck
+  },
   AddQuestion: {
     screen: AddQuestion
   },
   QuizView:{
     screen:QuizView
-  },
-  AddNewDeck:{
-    screen:AddNewDeck
   }
   
 }

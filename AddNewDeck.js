@@ -11,29 +11,45 @@ import {
 } from "react-native";
 
 class AddNewDeck extends Component {
+  state = {
+    text:"dd"
+  }
   
-  
-  render() {
+onSubmit=()=>{
+  debugger
+  console.log(this.state.text)
+  let title=this.state.text
+  AsyncStorage.mergeItem("obj", JSON.stringify({
+    [title]:{
+        title,
+        questions:[]
+  }}), () => {
+    AsyncStorage.getItem("obj",(err,res)=>{
+      console.log(res)
+    })
+  })
+    console.log("sa")
+  } 
+  render()
+   {
+     console.log(this.state.title)
     const { navigate } = this.props.navigation;
-    return (
-      
-        <View style={style.container}>
-          <Text style={style.header}>Enter Title for new deck</Text>
-          <KeyboardAvoidingView>
-            <TextInput
-              style={style.input}
-              placeholder={"Enter new Deck title"}
-            />
-            <TouchableOpacity style={style.button}>
-              <Text>Submitt</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={style.button}>
-              <Text>Back</Text>
-            </TouchableOpacity>
-          </KeyboardAvoidingView>
-        </View>
-      
-    );
+       return(
+      <View style={style.container}>
+        <Text style={style.header}>Enter Title for new deck</Text>
+        
+          <TextInput   onChangeText={(text) => this.setState({text})}
+        placeholder={"Enter title"}
+        style={style.input}  />
+          <TouchableOpacity style={style.button}>
+            <Text onPress={this.onSubmit}>Submitt</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={style.button}>
+            <Text>Back</Text>
+          </TouchableOpacity>
+        
+      </View>
+    )
   }
 }
 const style = StyleSheet.create({
