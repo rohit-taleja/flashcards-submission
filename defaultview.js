@@ -11,6 +11,9 @@ import {
 } from "react-native";
 import _ from 'lodash';
 class DefaultView extends Component {
+  static navigationOptions = {
+    title: "Welcome"
+  }
   state={
     allDecks:[
        {
