@@ -17,11 +17,12 @@ import FlipCards from "./flipcard";
 class QuizView extends Component {
       state={
         queans:[],
-        index:0
+        index:0,
+        score:0
       }
 
   componentDidMount(){
-    debugger
+    // debugger
     let title = this.props.navigation.state.params.title
       let deck=[]
      AsyncStorage.getItem("obj", (err, result) => {
@@ -45,16 +46,29 @@ class QuizView extends Component {
     })
   }
 
-    onSubmitCorrect(){
-
+    onSubmitCorrect=()=>{
+      let ans=this.state.queans[this.state.index].answer
+      if(ans=="yes")
+      {
+        this.state.score=this.state.score+1
+      }
+      let obj=this.state.index+1
+      this.setState({index:obj})
     }
-    onSubmitIncorrect(){
-
+    onSubmitIncorrect=()=>{
+        debugger
+      let ans=this.state.queans[this.state.index].answer
+      if(ans=="no")
+      {
+        this.state.score=this.state.score+1
+      }
+      let obj=this.state.index+1
+      this.setState({index:obj})
     }
 
   render() {
     const { navigate } = this.props.navigation;
-    debugger
+    
     const obj=this.state.queans[this.state.index]
     const questionNumber=this.state.index+1
     return (
@@ -62,6 +76,7 @@ class QuizView extends Component {
       {this.state.queans.length?(
       <View>
         <Text style={style.header}>Quiz</Text>
+        
         <Text style={style.header}>Questions number:{questionNumber}/{this.state.queans.length}</Text>
         <KeyboardAvoidingView>
           <FlipCards data={this.state.queans[this.state.index]} />
@@ -99,7 +114,7 @@ const style = StyleSheet.create({
     borderWidth: 1,
     padding: 12,
     margin: 20,
-    top:-150,
+    top:-250,
     borderRadius: 5,
     backgroundColor: "#f18973",
     alignItems: "center"

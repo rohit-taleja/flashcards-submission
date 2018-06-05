@@ -78,7 +78,7 @@ class AddQuestion extends Component {
           <Text style={{ marginTop: 14 }}>Question:</Text>
           <TextInput onChangeText={(text) => this.setState({question:text})}
           style={style.input} placeholder={"Enter Question"} />
-          <Text style={{ marginTop: 14 }}>Answer:</Text>
+          <Text style={{ marginTop: 14 }}>Answer (either yes or no ):</Text>
           <TextInput  onChangeText={(text) => this.setState({answer:text})}
             style={style.input}
             placeholder={"Enter Answer to Question"}

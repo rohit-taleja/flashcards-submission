@@ -62,7 +62,7 @@ import FlipCard from 'react-native-flip-card';
         { rotateY: this.backInterpolate }
       ]
     }
-    debugger
+    // debugger
       console.log(this.props.data)
       let obj2=this.props.data.answer     //working
     return (
