@@ -97,7 +97,7 @@ class QuizView extends Component {
           </View>
         ) : (
           <View>
-            <Text>loading...</Text>
+            <Text>loading...(Add some questions first)</Text>
           </View>
         )}
       </View>
