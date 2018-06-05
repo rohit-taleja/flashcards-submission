@@ -7,94 +7,91 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
-   AsyncStorage
+  AsyncStorage
 } from "react-native";
-import _ from 'lodash';
+import _ from "lodash";
 
 class AddQuestion extends Component {
-  state = {
-    question:"",
-    answer:"",
-    isSubmitted:false
+  static navigationOptions = {
+    title: "Add Card"
   };
-  
+  state = {
+    question: "",
+    answer: "",
+    isSubmitted: false
+  };
 
   onSubmit = () => {
-    debugger
-     let que=this.state.question
-     let ans=this.state.answer  
-     let title = this.props.navigation.state.params.title
-     
-     let arr={question:que,
-      answer:ans}
-    
-      let deck=[]
-     AsyncStorage.getItem("obj", (err, result) => {
-      let Allquestions=JSON.parse(result)
+    let que = this.state.question;
+    let ans = this.state.answer;
+    let title = this.props.navigation.state.params.title;
+
+    let arr = {
+      question: que,
+      answer: ans
+    };
+
+    let deck = [];
+    AsyncStorage.getItem("obj", (err, result) => {
+      let Allquestions = JSON.parse(result);
       _.forEach(Allquestions, function(value, key) {
-        console.log(key + ' ' + value)
-          if(key==title){
-        _.forEach(value, function(values, key) {
-          console.log(key + ' ' + values)
-          if(key=="questions")
-          {
-            deck=values
-          }
-        })
-      }
-      })
-      deck=deck.concat([arr])
-      console.log(deck)
-
-      AsyncStorage.mergeItem("obj", JSON.stringify(
-        {
-          [title]:{
-              title,
-              questions:deck
-        }}
-      ), () => {
-        AsyncStorage.getItem("obj", (err, result) => {
-          console.log(JSON.parse(result));
-          this.setState({isSubmitted:true})
-        });
+        if (key == title) {
+          _.forEach(value, function(values, key) {
+            if (key == "questions") {
+              deck = values;
+            }
+          });
+        }
       });
+      deck = deck.concat([arr]);
 
-    })
-      
-      
-     
-  }
+      AsyncStorage.mergeItem(
+        "obj",
+        JSON.stringify({
+          [title]: {
+            title,
+            questions: deck
+          }
+        }),
+        () => {
+          AsyncStorage.getItem("obj", (err, result) => {
+            this.setState({ isSubmitted: true });
+          });
+        }
+      );
+    });
+  };
   render() {
-    // debugger
-    console.log("props are",this.props.navigation.state.params)
     const { navigate } = this.props.navigation;
     return (
-      
       <View style={style.container}>
-      {!this.state.isSubmitted?(
-        <View>
-        <Text style={style.header}>New Question</Text>
-        <KeyboardAvoidingView>
-          <Text style={{ marginTop: 14 }}>Question:</Text>
-          <TextInput onChangeText={(text) => this.setState({question:text})}
-          style={style.input} placeholder={"Enter Question"} />
-          <Text style={{ marginTop: 14 }}>Answer (either yes or no ):</Text>
-          <TextInput  onChangeText={(text) => this.setState({answer:text})}
-            style={style.input}
-            placeholder={"Enter Answer to Question"}
-          />
-          <TouchableOpacity style={style.button}>
-            <Text onPress={this.onSubmit}>Submitt</Text>
-          </TouchableOpacity>
-        </KeyboardAvoidingView>
-        </View>
-        ):(
+        {!this.state.isSubmitted ? (
+          <View>
+            <Text style={style.header}>New Question</Text>
+            <KeyboardAvoidingView>
+              <Text style={{ marginTop: 14 }}>Question:</Text>
+              <TextInput
+                onChangeText={text => this.setState({ question: text })}
+                style={style.input}
+                placeholder={"Enter Question"}
+              />
+              <Text style={{ marginTop: 14 }}>Answer (either yes or no ):</Text>
+              <TextInput
+                onChangeText={text => this.setState({ answer: text })}
+                style={style.input}
+                placeholder={"Enter Answer to Question"}
+              />
+              <TouchableOpacity style={style.button}>
+                <Text onPress={this.onSubmit}>Submitt</Text>
+              </TouchableOpacity>
+            </KeyboardAvoidingView>
+          </View>
+        ) : (
           <View>
             <Text>Question Submitted</Text>
-            </View>
+          </View>
         )}
       </View>
-      
     );
   }
 }

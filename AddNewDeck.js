@@ -11,55 +11,60 @@ import {
 } from "react-native";
 
 class AddNewDeck extends Component {
+  static navigationOptions = {
+    title: "Add Card"
+  };
   state = {
-    text:"dd",
-    isSubmitted:false
-  }
-  
-onSubmit=()=>{
-  debugger
-  console.log(this.state.text)
-  let title=this.state.text
-  AsyncStorage.mergeItem("obj", JSON.stringify({
-    [title]:{
-        title,
-        questions:[]
-  }}), () => {
-    AsyncStorage.getItem("obj",(err,res)=>{
-      let obj1=JSON.parse(res)
-      console.log(obj1)
-      this.setState({isSubmitted:true})
-    })
-  })
-    
-  } 
-  render()
-   {
-     console.log(this.state.title)
+    text: "dd",
+    isSubmitted: false
+  };
+
+  onSubmit = () => {
+    let title = this.state.text;
+    AsyncStorage.mergeItem(
+      "obj",
+      JSON.stringify({
+        [title]: {
+          title,
+          questions: []
+        }
+      }),
+      () => {
+        AsyncStorage.getItem("obj", (err, res) => {
+          let obj1 = JSON.parse(res);
+
+          this.setState({ isSubmitted: true });
+        });
+      }
+    );
+  };
+  render() {
     const { navigate } = this.props.navigation;
-       return(
+    return (
       <View style={style.container}>
-      {!this.state.isSubmitted?(
-        <View>
-        <Text style={style.header}>Enter Title for new deck</Text>
-        
-          <TextInput   onChangeText={(text) => this.setState({text})}
-        placeholder={"Enter title"}
-        style={style.input}  />
-          <TouchableOpacity style={style.button}>
-            <Text onPress={this.onSubmit}>Submitt</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={style.button}>
-            <Text>Back</Text>
-          </TouchableOpacity>
+        {!this.state.isSubmitted ? (
+          <View>
+            <Text style={style.header}>Enter Title for new deck</Text>
+
+            <TextInput
+              onChangeText={text => this.setState({ text })}
+              placeholder={"Enter title"}
+              style={style.input}
+            />
+            <TouchableOpacity style={style.button}>
+              <Text onPress={this.onSubmit}>Submitt</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={style.button}>
+              <Text>Back</Text>
+            </TouchableOpacity>
           </View>
-        ):(
+        ) : (
           <View>
             <Text>Deck is Submitted</Text>
-            </View>
+          </View>
         )}
       </View>
-    )
+    );
   }
 }
 const style = StyleSheet.create({

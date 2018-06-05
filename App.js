@@ -1,14 +1,14 @@
-import React ,{ Component } from 'react';
-import { StyleSheet, AsyncStorage,Text, View } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, AsyncStorage, Text, View } from "react-native";
 
-import { Button } from 'react-native';
+import { Button } from "react-native";
 
-import {  StackNavigator } from 'react-navigation';
-import AddQuestion from './AddQuestion'
-import DeckView from './DeckView'
-import QuizView from './QuizView'
-import AddNewDeck from './AddNewDeck'
-import DefaultView from './defaultview'
+import { StackNavigator } from "react-navigation";
+import AddQuestion from "./AddQuestion";
+import DeckView from "./DeckView";
+import QuizView from "./QuizView";
+import AddNewDeck from "./AddNewDeck";
+import DefaultView from "./defaultview";
 
 // debugger
 let asyncobj = {
@@ -35,39 +35,26 @@ let asyncobj = {
       }
     ]
   }
-}
+};
 // AsyncStorage.clear()
-// debugger  
-AsyncStorage.setItem("obj", JSON.stringify(asyncobj), () => {
-    AsyncStorage.getItem("obj", (err, result) => {
-      console.log(result);
-    });
-  });
- 
-  AsyncStorage.getAllKeys((err,res)=>{
-      console.log(res)
-  })
-console.log("sa");
-
-
+// debugger
+AsyncStorage.mergeItem("obj", JSON.stringify(asyncobj));
 const App = StackNavigator({
-  DefaultView:{
-    screen:DefaultView
+  DefaultView: {
+    screen: DefaultView
   },
-  DeckView:{
-    screen:DeckView
+  DeckView: {
+    screen: DeckView
   },
-  AddNewDeck:{
-    screen:AddNewDeck
+  AddNewDeck: {
+    screen: AddNewDeck
   },
   AddQuestion: {
     screen: AddQuestion
   },
-  QuizView:{
-    screen:QuizView
+  QuizView: {
+    screen: QuizView
   }
-  
-}
-)   
+});
 
-export default App
+export default App;

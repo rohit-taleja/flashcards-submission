@@ -9,67 +9,71 @@ import {
   StyleSheet,
   Alert
 } from "react-native";
-import _ from 'lodash';
+import _ from "lodash";
 class DefaultView extends Component {
   static navigationOptions = {
-    title: "Welcome"
-  }
-  state={
-    allDecks:[
-       {
-        "asyncobj":"no Questions"
+    title: "Decks"
+  };
+  state = {
+    allDecks: [
+      {
+        asyncobj: "no Questions"
       }
     ]
-  }
-  
-  
-  componentDidMount(){
+  };
+
+  componentDidMount() {
     AsyncStorage.getItem("obj", (err, result) => {
-      this.setState({allDecks:JSON.parse(result)})
+      this.setState({ allDecks: JSON.parse(result) });
     });
   }
   render() {
-    
     const { navigate } = this.props.navigation;
-    // debugger
-    let obj2=this.state.allDecks
-    if(obj2.JavaScript){
-    let obj4=obj2.JavaScript
-    }
-    let obj3=[]
-    let i=0
-    let count=[]
-    let j=0
-  _.forEach(obj2, function(value, key) {
-    console.log(key + ' ' + value)
-    
-    _.forEach(value, function(values, key) {
-      console.log(key + ' ' + values)
-      if(key=="questions"){
-      count[j]=values.length
-      j=j+1
+
+    let obj2 = this.state.allDecks;
+
+    let allTitles = [];
+    let i = 0;
+    let count = [];
+    let j = 0;
+    _.forEach(obj2, function(value, key) {
+      _.forEach(value, function(values, key) {
+        if (key == "questions") {
+          count[j] = values.length;
+          j = j + 1;
+        }
+      });
+      if (key) {
+        allTitles[i] = key;
+        i = i + 1;
       }
-    })
-      if(key){
-    obj3[i]=key
-    i=i+1
-      }
-    
-});
-  console.log(obj3)
+    });
+
     return (
       <View style={style.container}>
-      {obj3.map((deck,index)=>(
-        <View  key={index}>
-        <Text   onPress={() => navigate("DeckView",{deck:`${deck}`,count:`${count[index]}`})} style={style.header}>
-          {deck}
-        </Text>
-        <Text >
-          number of questions:{count[index]}
-        </Text>
-        </View>
-       ))}
-     
+        {allTitles.map((deck, index) => (
+          <View key={index}>
+            <Text
+              onPress={() =>
+                navigate("DeckView", {
+                  deck: `${deck}`,
+                  count: `${count[index]}`
+                })
+              }
+              style={style.header}
+            >
+              {deck}
+            </Text>
+            <Text>number of questions:{count[index]}</Text>
+            <View
+              style={{
+                borderBottomColor: "grey",
+                borderBottomWidth: 1
+              }}
+            />
+          </View>
+        ))}
+
         <KeyboardAvoidingView>
           <TouchableOpacity style={style.button}>
             <Text onPress={() => navigate("AddNewDeck")}>Add New Deck</Text>
