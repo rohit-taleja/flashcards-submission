@@ -9,72 +9,77 @@ import {
   Alert,
    AsyncStorage
 } from "react-native";
-
+import _ from 'lodash';
 
 class AddQuestion extends Component {
   state = {
-    name: ""
+    question:"",
+    answer:"",
+    isSubmitted:false
   };
-  componentDidMount() {
-    debugger
-  }
+  
 
   onSubmit = () => {
-     let asyncobj = {
-      React: {
-        title: "React",
-        questions: [
-          {
-            question: "What is React?",
-            answer: "A library for managing user interfaces"
-          },
-          {
-            question: "Where do you make Ajax requests in React?",
-            answer: "The componentDidMount lifecycle event"
-          }
-        ]
-      },
-      JavaScript: {
-        title: "JavaScript",
-        questions: [
-          {
-            question: "What is a closure?",
-            answer:
-              "The combination of a function and the lexical environment within which that function was declared."
-          }
-        ]
-      }
-    };
-    let value = { ujjawal: "RAM" };
-    let newobj = {
-      abc: "ggg"
-    };
+    debugger
+     let que=this.state.question
+     let ans=this.state.answer  
+     let title = this.props.navigation.state.params.title
+     
+     let arr={question:que,
+      answer:ans}
     
-    AsyncStorage.clear()
-    AsyncStorage.setItem("obj", JSON.stringify(asyncobj), () => {
-      AsyncStorage.mergeItem("obj", JSON.stringify(value), () => {
+      let deck=[]
+     AsyncStorage.getItem("obj", (err, result) => {
+      let Allquestions=JSON.parse(result)
+      _.forEach(Allquestions, function(value, key) {
+        console.log(key + ' ' + value)
+          if(key==title){
+        _.forEach(value, function(values, key) {
+          console.log(key + ' ' + values)
+          if(key=="questions")
+          {
+            deck=values
+          }
+        })
+      }
+      })
+      deck=deck.concat([arr])
+      console.log(deck)
+
+      AsyncStorage.mergeItem("obj", JSON.stringify(
+        {
+          [title]:{
+              title,
+              questions:deck
+        }}
+      ), () => {
         AsyncStorage.getItem("obj", (err, result) => {
-          console.log(result);
+          console.log(JSON.parse(result));
+          this.setState({isSubmitted:true})
         });
       });
-     });
-      AsyncStorage.getAllKeys((err,res)=>{
-          console.log(res)
-      })
-    console.log("sa");
-  };
+
+    })
+      
+      
+     
+  }
   render() {
-    
+    // debugger
+    console.log("props are",this.props.navigation.state.params)
     const { navigate } = this.props.navigation;
     return (
+      
       <View style={style.container}>
+      {!this.state.isSubmitted?(
+        <View>
         <Text style={style.header}>New Question</Text>
         <KeyboardAvoidingView>
           <Text style={{ marginTop: 14 }}>Question:</Text>
-          <TextInput 
+          <TextInput onChangeText={(text) => this.setState({question:text})}
           style={style.input} placeholder={"Enter Question"} />
           <Text style={{ marginTop: 14 }}>Answer:</Text>
-          <TextInput
+          <TextInput  onChangeText={(text) => this.setState({answer:text})}
             style={style.input}
             placeholder={"Enter Answer to Question"}
           />
@@ -82,7 +87,14 @@ class AddQuestion extends Component {
             <Text onPress={this.onSubmit}>Submitt</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
+        </View>
+        ):(
+          <View>
+            <Text>Question Submitted</Text>
+            </View>
+        )}
       </View>
+      
     );
   }
 }

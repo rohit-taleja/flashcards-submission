@@ -62,18 +62,20 @@ import FlipCard from 'react-native-flip-card';
         { rotateY: this.backInterpolate }
       ]
     }
-
+    debugger
+      console.log(this.props.data)
+      let obj2=this.props.data.answer     //working
     return (
       <View style={styles.container}>
         <View>
           <Animated.View style={[styles.flipCard, frontAnimatedStyle, {opacity: this.frontOpacity}]}>
             <Text style={styles.flipText}>
-              This text is flipping on the front.
+            {this.props.data.question}
             </Text>
           </Animated.View>
           <Animated.View style={[styles.flipCard, styles.flipCardBack, backAnimatedStyle, {opacity: this.backOpacity}]}>
             <Text style={styles.flipText}>
-              This text is flipping on the back.
+              {this.props.data.answer}
             </Text>
           </Animated.View>
         </View>
@@ -90,6 +92,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    width:250,
+    height:250,
+    top:-150
   },
   flipCard: {
     width: 200,

@@ -1,5 +1,5 @@
 import React ,{ Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, AsyncStorage,Text, View } from 'react-native';
 
 import { Button } from 'react-native';
 
@@ -9,6 +9,47 @@ import DeckView from './DeckView'
 import QuizView from './QuizView'
 import AddNewDeck from './AddNewDeck'
 import DefaultView from './defaultview'
+
+// debugger
+let asyncobj = {
+  React: {
+    title: "React",
+    questions: [
+      {
+        question: "What is React?",
+        answer: "A library for managing user interfaces"
+      },
+      {
+        question: "Where do you make Ajax requests in React?",
+        answer: "The componentDidMount lifecycle event"
+      }
+    ]
+  },
+  JavaScript: {
+    title: "JavaScript",
+    questions: [
+      {
+        question: "What is a closure?",
+        answer:
+          "The combination of a function and the lexical environment within which that function was declared."
+      }
+    ]
+  }
+}
+// AsyncStorage.clear()
+// debugger  
+AsyncStorage.setItem("obj", JSON.stringify(asyncobj), () => {
+    AsyncStorage.getItem("obj", (err, result) => {
+      console.log(result);
+    });
+  });
+ 
+  AsyncStorage.getAllKeys((err,res)=>{
+      console.log(res)
+  })
+console.log("sa");
+
+
 const App = StackNavigator({
   DefaultView:{
     screen:DefaultView

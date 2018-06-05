@@ -12,7 +12,8 @@ import {
 
 class AddNewDeck extends Component {
   state = {
-    text:"dd"
+    text:"dd",
+    isSubmitted:false
   }
   
 onSubmit=()=>{
@@ -25,10 +26,12 @@ onSubmit=()=>{
         questions:[]
   }}), () => {
     AsyncStorage.getItem("obj",(err,res)=>{
-      console.log(res)
+      let obj1=JSON.parse(res)
+      console.log(obj1)
+      this.setState({isSubmitted:true})
     })
   })
-    console.log("sa")
+    
   } 
   render()
    {
@@ -36,6 +39,8 @@ onSubmit=()=>{
     const { navigate } = this.props.navigation;
        return(
       <View style={style.container}>
+      {!this.state.isSubmitted?(
+        <View>
         <Text style={style.header}>Enter Title for new deck</Text>
         
           <TextInput   onChangeText={(text) => this.setState({text})}
@@ -47,7 +52,12 @@ onSubmit=()=>{
           <TouchableOpacity style={style.button}>
             <Text>Back</Text>
           </TouchableOpacity>
-        
+          </View>
+        ):(
+          <View>
+            <Text>Deck is Submitted</Text>
+            </View>
+        )}
       </View>
     )
   }

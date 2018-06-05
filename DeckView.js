@@ -8,21 +8,24 @@ import {
 } from "react-native";
 
 class DeckView extends Component {
+  
+  
+  
   render() {
     const { navigate } = this.props.navigation;
     return (
       <Animated.View>
-        <Text style={style.deckTitle}>title</Text>
-        <Text style={style.cards}>Cards: </Text>
+        <Text style={style.deckTitle}>Title : {this.props.navigation.state.params.deck}</Text>
+        <Text style={style.cards}>Number of Questions : {this.props.navigation.state.params.count} </Text>
         <TouchableOpacity
           style={style.button}
-          onPress={() => navigate("AddQuestion")}
+          onPress={() => navigate("AddQuestion",{title:this.props.navigation.state.params.deck})}
         >
           <Text>Add Question</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={style.button}
-          onPress={() => navigate("QuizView")}
+          onPress={() => navigate("QuizView",{title:this.props.navigation.state.params.deck})}
         >
           <Text>Start Quiz</Text>
         </TouchableOpacity>

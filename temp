@@ -1,0 +1,106 @@
+import React, { Component } from "react";
+import { AsyncStorage } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+  StyleSheet,
+  Alert
+} from "react-native";
+import _ from "lodash";
+class DefaultView extends Component {
+  state = {
+    allDecks: []
+  };
+
+  componentDidMount() {
+    // debugger;
+    AsyncStorage.getItem("obj", (err, result) => {
+      this.setState({ allDecks: JSON.parse(result) });
+      
+    });
+  }
+  render() {
+    const { navigate } = this.props.navigation;
+    debugger;
+    let allTitles = [];
+    let count = [];
+    if(this.state.allDecks.JavaScript){
+    let obj2 = this.state.allDecks;
+    if (obj2.length) {
+      let obj4 = obj2.JavaScript;
+    }
+    
+    let i = 0;
+    
+    let j = 0;
+    _.forEach(obj2, function(value, key) {
+      console.log(key + " " + value);
+      
+      _.forEach(value, function(values, key) {
+        console.log(key + " " + values);
+        if (key == "questions") {
+          count[j] = values.length;
+          j = j + 1;
+        }
+      });
+      if (key) {
+        allTitles[i] = key;
+        i = i + 1;
+      }
+    });
+    console.log(allTitles, count);
+  }
+    return (
+      <View >
+        {/* {this.state.allDecks.JavaScript ? ( */}
+           
+          <View>
+            {/* {allTitles.map((deck, index) => (
+              <View key={index}>
+                <Text  onPress={() => navigate("DeckView")} >
+                  {deck}
+                </Text>
+                
+              </View>
+            ))} */}
+          </View>
+        {/* ) : ( */}
+          // <View>
+          //   <Text>loading</Text>
+          // </View>
+        {/* )} */}
+        <KeyboardAvoidingView>
+          <TouchableOpacity >
+            <Text onPress={() => navigate("AddNewDeck")}>Add New Deck</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </View>
+    );
+  }
+}
+// const style = StyleSheet.create({
+//   container: {
+//     alignItems: "center"
+//   },
+//   header: {
+//     fontSize: 20,
+//     paddingTop: 12
+//   },
+//   input: {
+//     width: 250,
+//     paddingTop: 12,
+//     fontSize: 18
+//   },
+//   button: {
+//     borderWidth: 1,
+//     padding: 12,
+//     margin: 50,
+//     borderRadius: 5,
+//     backgroundColor: "#f18973",
+//     alignItems: "center"
+//   }
+// });
+export default DefaultView;
